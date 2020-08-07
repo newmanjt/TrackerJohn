@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/DAddYE/vips"
+	// "github.com/DAddYE/vips"
+	"github.com/daddye/vips"
 	"github.com/google/uuid"
 	"io/ioutil"
 	"log"
@@ -56,6 +57,18 @@ func checkUser(user string, password string) bool {
 	} else {
 		return false
 	}
+}
+
+func getName(user string) string {
+	body, err := ioutil.ReadFile("./logins/" + user)
+	if err != nil {
+		return "unknown"
+	}
+	log.Println(string(body))
+	pdata := string(body)
+	parts := strings.Split(pdata, ",")
+	name := strings.Trim(parts[2], "\r\n")
+	return name
 }
 
 func serveImage(name string, resize bool) (outBuf []byte) {
@@ -132,7 +145,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, string(login))
 	} else if r.URL.Path[1:] == "" {
 		//base case, redirect to login
-		// TODO: add in check for user info
 		log.Println("Redirecting to Login")
 		GoTo("login", w)
 	} else if r.URL.Path[1:] == "check" {
