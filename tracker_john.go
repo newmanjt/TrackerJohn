@@ -121,6 +121,8 @@ func getContentType(filename string) (contentType string) {
 		contentType = "image/png"
 	} else if strings.HasSuffix(filename, ".jpg") {
 		contentType = "image/jpeg"
+	} else if strings.HasSuffix(filename, ".js") {
+		contentType = "text/javascript"
 	}
 	return
 }
@@ -129,12 +131,21 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Handling visit")
 	if r.URL.Path[1:] == "dashboard" {
 		log.Println("Serving Dashboard")
+		users, ok := r.URL.Query()["user"]
+		if !ok || len(users[0]) < 1 {
+			log.Println("Error, no user")
+			fmt.Fprintf(w, "Error, Not a User")
+			return
+		}
+		user := users[0]
+		name := getName(user)
 		dashboard, err := loadFile("dashboard.html")
 		if err != nil {
 			//TODO: change to error page
 			fmt.Fprintf(w, "Error")
 		}
-		fmt.Fprintf(w, string(dashboard))
+		named_dashboard := strings.Replace(string(dashboard), "FIRSTNAME", name, 1)
+		fmt.Fprintf(w, named_dashboard)
 	} else if r.URL.Path[1:] == "login" {
 		log.Println("Serving Login")
 		login, err := loadFile("login.html")
@@ -180,7 +191,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(r.URL.Path[1:], ".png") || strings.HasSuffix(r.URL.Path[1:], "jpg") {
 			w.Header().Set("Content-Type", getContentType(r.URL.Path[1:]))
 			w.Write(serveImage(r.URL.Path[1:], false))
-		} else if strings.HasSuffix(r.URL.Path[1:], "css") || strings.HasSuffix(r.URL.Path[1:], ".woff") || strings.HasSuffix(r.URL.Path[1:], "ttf") || strings.HasSuffix(r.URL.Path[1:], "eot") || strings.HasSuffix(r.URL.Path[1:], "woff2") || strings.HasSuffix(r.URL.Path[1:], "svg") {
+		} else if strings.HasSuffix(r.URL.Path[1:], "css") || strings.HasSuffix(r.URL.Path[1:], ".woff") || strings.HasSuffix(r.URL.Path[1:], "ttf") || strings.HasSuffix(r.URL.Path[1:], "eot") || strings.HasSuffix(r.URL.Path[1:], "woff2") || strings.HasSuffix(r.URL.Path[1:], "svg") || strings.HasSuffix(r.URL.Path[1:], "js") {
 			data, err := loadFile(r.URL.Path[1:])
 			if err != nil {
 				fmt.Fprintf(w, "Error")
