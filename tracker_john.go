@@ -147,12 +147,18 @@ func serveDashboard(w http.ResponseWriter, r *http.Request) {
 	}
 	named_dashboard := strings.Replace(strings.Replace(string(dashboard), "FIRSTNAME", name, 1), "USERNAME", user, 1)
 	fmt.Fprintf(w, named_dashboard)
-
 }
 
 func serveOperations(w http.ResponseWriter, r *http.Request) {
 	log.Println("Serving Operations")
 	//load and serve operations as json
+	files, err := ioutil.ReadDir("./operations/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, f := range files {
+		fmt.Println(f.Name())
+	}
 }
 
 func serveLogin(w http.ResponseWriter, r *http.Request) {
@@ -264,9 +270,9 @@ func newOperation(w http.ResponseWriter, r *http.Request) {
 	}
 	int_duration, _ := strconv.Atoi(duration)
 	new_op := Operation{Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor, UUID: uuid.New(), User: user}
-	//TODO: save operation and redirect to dashboard where it will get loaded
 	op_file, _ := json.MarshalIndent(new_op, "", " ")
 	_ = ioutil.WriteFile("./operations/"+user+"_"+new_op.UUID.String(), op_file, 0644)
+	GoTo("dashboard", w)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -281,6 +287,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		serveDashboardFile(w, r)
 	} else if r.URL.Path[1:] == "new_operation" {
 		newOperation(w, r)
+	} else if r.URL.Path[1:] == "get_operations" {
+		serveOperations(w, r)
 	} else if r.URL.Path[1:] == "" {
 		GoTo("login", w)
 	} else {
