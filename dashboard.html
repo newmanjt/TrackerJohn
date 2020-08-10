@@ -83,8 +83,26 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <div class="w3-row-padding w3-margin-bottom">
             <h2>Create New Operation</h2>
             <form action="/new_operation">
-                
+                <label for="title">Title: </label><br>
+                <input type="text" id="title" name="title" value="Title"></input><br>
+                <label for="duration">Duration: </label><br>
+                <input type="number" id="duration" name="duration"></input>  <span>minutes</span><br>
+                <label for="core_factor">Core Factor: </label><br>
+                <select name="core_factor" id="core_factor">
+                    <option value="Mind">Mind</option>
+                    <option value="Body">Body</option>
+                    <option value="Soul">Soul</option>
+                </select><br>
+                <label for="secondary_factor">Secondary Factor: </label><br>
+                <select name="secondary_factor" id="secondary_factor">
+                    <option value="Body">Body</option>
+                    <option value="Mind">Mind</option>
+                    <option value="Soul">Soul</option>
+                </select><br><br>
+                <input type="text" name="user" value="USERNAME" hidden>
+                <input type="submit" value="Submit">
             </form>
+            <br>
         </div>
     </div>
   </div>

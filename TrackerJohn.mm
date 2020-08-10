@@ -7,7 +7,7 @@
 <icon BUILTIN="xmag"/>
 <node CREATED="1596744599098" HGAP="21" ID="ID_1505406965" MODIFIED="1596745173744" STYLE="bubble" TEXT="Factors should be definable into a set of different categories. Basic categories include the defining triumvirate of human experience: Mind, Body, and Soul" VSHIFT="10">
 <node CREATED="1596744652974" HGAP="54" ID="ID_40199361" MODIFIED="1596745013522" STYLE="fork" TEXT="Mind" VSHIFT="-84">
-<node CREATED="1596744759008" ID="ID_532713713" MODIFIED="1596744852388" STYLE="bubble" TEXT="Mind relates to the aspects of experience corresponding to thought, past experiences, and memories. The Mind contains the past memories of the individual. When absent of direction, the Mind will autonomously flash through memories which will spur thought. ">
+<node CREATED="1596744759008" ID="ID_532713713" MODIFIED="1596831687864" STYLE="bubble" TEXT="Mind relates to the aspects of experience corresponding to thought, past experiences, and memories. The Mind contains the past memories of the individual. When absent of direction, the Mind will autonomously flash through memories which will spur individual, often creative thought.">
 <arrowlink DESTINATION="ID_532713713" ENDARROW="Default" ENDINCLINATION="0;0;" ID="Arrow_ID_1638157247" STARTARROW="None" STARTINCLINATION="0;0;"/>
 <linktarget COLOR="#b0b0b0" DESTINATION="ID_532713713" ENDARROW="Default" ENDINCLINATION="0;0;" ID="Arrow_ID_1638157247" SOURCE="ID_532713713" STARTARROW="None" STARTINCLINATION="0;0;"/>
 </node>
