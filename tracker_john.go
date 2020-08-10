@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	// "net/url"
+	"encoding/json"
 	"os"
 	"strings"
 )
@@ -149,6 +150,11 @@ func serveDashboard(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func serveOperations(w http.ResponseWriter, r *http.Request) {
+	log.Println("Serving Operations")
+	//load and serve operations as json
+}
+
 func serveLogin(w http.ResponseWriter, r *http.Request) {
 	log.Println("Serving Login")
 	login, err := loadFile("login.html")
@@ -218,6 +224,8 @@ type Operation struct {
 	Duration        int
 	CoreFactor      string
 	SecondaryFactor string
+	User            string
+	UUID            uuid.UUID
 }
 
 func getParam(r *http.Request, param string) (string, error) {
@@ -255,9 +263,10 @@ func newOperation(w http.ResponseWriter, r *http.Request) {
 		log.Println("no secondary factory! not fatal")
 	}
 	int_duration, _ := strconv.Atoi(duration)
-	new_op := Operation{Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor}
-	log.Println(user)
-	log.Println(new_op)
+	new_op := Operation{Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor, UUID: uuid.New(), User: user}
+	//TODO: save operation and redirect to dashboard where it will get loaded
+	op_file, _ := json.MarshalIndent(new_op, "", " ")
+	_ = ioutil.WriteFile("./operations/"+user+"_"+new_op.UUID.String(), op_file, 0644)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
