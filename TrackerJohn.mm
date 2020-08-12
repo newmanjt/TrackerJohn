@@ -63,6 +63,14 @@
 </node>
 <node COLOR="#990000" CREATED="1596763390025" ID="ID_1068301304" MODIFIED="1596763408374" TEXT="What is the scale of such levels?"/>
 </node>
+<node CREATED="1597113293783" ID="ID_1122328162" MODIFIED="1597113323953" TEXT="Alternate Definitions">
+<node CREATED="1597113331354" ID="ID_169847391" MODIFIED="1597113505526" TEXT="While a consistent scale across the three levels is desirable, it seems unusable. It is my concern that the soul lives in both the mind and the body, causing a difficult interplay between the three. What helps the soul will unvariably help the other two. Therefore, a better approach is a primary/secondary breakdown between the mind/body and a ranking scale for the soul">
+<node CREATED="1597113622093" ID="ID_204461698" MODIFIED="1597113807445" TEXT="The scale for the soul ranking must include positive and negative effects"/>
+<node CREATED="1597113814570" ID="ID_710664513" MODIFIED="1597113849469" TEXT="Is it possible to include +/- in body and mind? ">
+<node CREATED="1597113852275" ID="ID_719261462" MODIFIED="1597113864435" TEXT="within bounds"/>
+</node>
+</node>
+</node>
 </node>
 <node CREATED="1596737717090" HGAP="13" ID="ID_1990719621" MODIFIED="1596755318931" POSITION="right" TEXT="Operators" VSHIFT="162">
 <icon BUILTIN="group"/>
@@ -135,6 +143,9 @@
 <node CREATED="1596762567077" ID="ID_482553090" MODIFIED="1596762575678" TEXT="Duration"/>
 <node CREATED="1596762576204" ID="ID_38572500" MODIFIED="1596762665848" TEXT="Core Factor"/>
 <node CREATED="1596762666486" ID="ID_1443067654" MODIFIED="1596762672150" TEXT="Secondary Factors"/>
+<node CREATED="1597112936786" ID="ID_1522393759" MODIFIED="1597112939294" TEXT="UUID"/>
+<node CREATED="1597113005201" ID="ID_354797193" MODIFIED="1597113006751" TEXT="User"/>
+<node CREATED="1597113008821" ID="ID_411842308" MODIFIED="1597113011209" TEXT="Purpose"/>
 </node>
 </node>
 <node CREATED="1596762271628" ID="ID_1982257964" MODIFIED="1596762289385" TEXT="Start out with base Operation"/>

@@ -156,9 +156,21 @@ func serveOperations(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	var ops UserOperations
 	for _, f := range files {
-		fmt.Println(f.Name())
+		jsonFile, err := os.Open("./operations/" + f.Name())
+		if err != nil {
+			log.Println("error opening file, " + f.Name())
+			continue
+		}
+		defer jsonFile.Close()
+		var op Operation
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+		json.Unmarshal(byteValue, &op)
+		ops.Operations = append(ops.Operations, op)
 	}
+	json_output, _ := json.MarshalIndent(&ops, "", " ")
+	fmt.Fprintf(w, string(json_output))
 }
 
 func serveLogin(w http.ResponseWriter, r *http.Request) {
@@ -226,12 +238,16 @@ func serveDashboardFile(w http.ResponseWriter, r *http.Request) {
 }
 
 type Operation struct {
-	Title           string
-	Duration        int
-	CoreFactor      string
-	SecondaryFactor string
-	User            string
-	UUID            uuid.UUID
+	Title           string    `json:"Title"`
+	Duration        int       `json:"Duration"`
+	CoreFactor      string    `json:"CoreFactor"`
+	SecondaryFactor string    `json:"SecondaryFactor"`
+	User            string    `json:"User"`
+	UUID            uuid.UUID `json:"UUID"`
+}
+
+type UserOperations struct {
+	Operations []Operation `json:"operations,omitempty"`
 }
 
 func getParam(r *http.Request, param string) (string, error) {
@@ -272,7 +288,7 @@ func newOperation(w http.ResponseWriter, r *http.Request) {
 	new_op := Operation{Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor, UUID: uuid.New(), User: user}
 	op_file, _ := json.MarshalIndent(new_op, "", " ")
 	_ = ioutil.WriteFile("./operations/"+user+"_"+new_op.UUID.String(), op_file, 0644)
-	GoTo("dashboard", w)
+	GoTo("dashboard?user="+user, w)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {

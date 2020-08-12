@@ -18,3 +18,38 @@ window.onclick = function(event) {
         newOperationModal.style.display = "none";
     }
 };
+
+function parseOperations(operations) {
+    //skip if no operations
+    if (operations["operations"].length == 0)
+        return;
+    let filler = "";
+    let tableRow = "<tr id=\"OPERATION\">\n<td></td>CONTENT</tr>";
+    let tableCell = "<td>TITLE</td><td>COREFACTOR</td><td>SECONDARYFACTOR</td><td><em>DURATION</em> minutes</td>";
+    for (operation in operations["operations"]){
+        let op = operations["operations"][operation];
+        filler = filler + tableRow.replace("OPERATION", op.Title).replace("CONTENT", tableCell.replace("TITLE", op.Title).replace("COREFACTOR", op.CoreFactor).replace("SECONDARYFACTOR", op.SecondaryFactor).replace("DURATION", op.Duration));
+    }
+    document.getElementById("table_body").innerHTML = filler;
+}
+
+function getOperations(){
+    let user = document.getElementById("first_name").innerHTML;    
+    let xhr = new XMLHttpRequest();
+
+    xhr.onload = function(){
+        if (xhr.status != 200) {
+            console.log("error getting operations");
+        }else {
+            console.log("got operations");
+            var res = JSON.parse(xhr.response);
+            parseOperations(res);
+        }
+    };
+
+    xhr.open('GET', '/get_operations?user=' + user);
+
+    xhr.send();
+}
+
+getOperations()
