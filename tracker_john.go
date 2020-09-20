@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"time"
 	// "github.com/DAddYE/vips"
 	"github.com/daddye/vips"
 	"github.com/google/uuid"
@@ -243,6 +244,8 @@ type Operation struct {
 	CoreFactor      string    `json:"CoreFactor"`
 	SecondaryFactor string    `json:"SecondaryFactor"`
 	User            string    `json:"User"`
+	Goal            string    `json:"Goal"`
+	Date            string    `json:"Date"`
 	UUID            uuid.UUID `json:"UUID"`
 }
 
@@ -266,6 +269,12 @@ func newOperation(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "No User!")
 		return
 	}
+	goal, err := getParam(r, "goal")
+	if err != nil {
+		log.Println("no goal! fatal error")
+		fmt.Fprintf(w, "No Goal!")
+		return
+	}
 	title, err := getParam(r, "title")
 	if err != nil {
 		log.Println("no title! fatal error")
@@ -285,7 +294,7 @@ func newOperation(w http.ResponseWriter, r *http.Request) {
 		log.Println("no secondary factory! not fatal")
 	}
 	int_duration, _ := strconv.Atoi(duration)
-	new_op := Operation{Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor, UUID: uuid.New(), User: user}
+	new_op := Operation{Goal: goal, Date: time.Now().UTC().String(), Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor, UUID: uuid.New(), User: user}
 	op_file, _ := json.MarshalIndent(new_op, "", " ")
 	_ = ioutil.WriteFile("./operations/"+user+"_"+new_op.UUID.String(), op_file, 0644)
 	GoTo("dashboard?user="+user, w)
