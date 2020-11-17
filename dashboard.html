@@ -109,6 +109,21 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
   </div>
 
+  <div id="editOperationModal" class="w3-modal">
+    <div class="w3-modal-content">
+        <span class="close2">&times;</span>
+        <div class="w3-row-padding w3-margin-bottom">
+            <h2>Edit Operation <a id="operation_name"></a></h2>
+            <form action="/remove_operation">
+                <input type="text" name="uuid" id="remove_uuid" value="temp" hidden>
+                <input type="submit" value="Remove">
+            </form>
+            <br>
+        </div>
+    </div>
+  </div>
+
+
   <div class="w3-row-padding w3-margin-bottom">
 
     <!-- <div class="w3-quarter"> -->

@@ -7,17 +7,36 @@ document.getElementById("new_operation").onclick = function(ev) {
 
 var newOperationModal = document.getElementById("newOperationModal");
 
+var editOperationModal = document.getElementById("editOperationModal");
+
 var closeSpan = document.getElementsByClassName("close")[0];
+
+var editCloseSpan = document.getElementsByClassName("close2")[0];
+
 
 closeSpan.onclick = function() {
     newOperationModal.style.display = "none";
 };
 
+editCloseSpan.onclick = function() {
+    editOperationModal.style.display = "none";
+};
+
 window.onclick = function(event) {
     if (event.target == newOperationModal) {
         newOperationModal.style.display = "none";
+    } else if (event.target == editOperationModal) {
+        editOperationModal.style.display = "none";
     }
 };
+
+function edit(el) {
+    console.log(el);
+    editOperationModal.style.display = "block";
+    document.getElementById("remove_uuid").setAttribute("value", el);
+    document.getElementById("operation_name").innerHTML = el;
+    // document.getElementById(el).hidden = true;
+}
 
 function parseOperations(operations) {
     //skip if no operations
@@ -25,11 +44,13 @@ function parseOperations(operations) {
         return;
     let filler = "";
     let header = "<tr id=\"header\"><th></th><th>Date</th><th>Goal</th><th>Title</th><th>Core Factor</th><th>Secondary Factor</th><th>Duration</th></tr>"
-    let tableRow = "<tr id=\"OPERATION\">\n<td></td>CONTENT</tr>";
+    let tableRow = "<tr id=\"OPERATION\" onclick=\"edit(this.id)\">\n<td></td>CONTENT</tr>";
     let tableCell = "<td>DATE</td><td>GOAL</td><td>TITLE</td><td>COREFACTOR</td><td>SECONDARYFACTOR</td><td><em>DURATION</em> minutes</td>";
     for (operation in operations["operations"]){
         let op = operations["operations"][operation];
-        filler = filler + tableRow.replace("OPERATION", op.Title).replace("CONTENT", tableCell.replace("DATE", op.Date).replace("GOAL", op.Goal).replace("TITLE", op.Title).replace("COREFACTOR", op.CoreFactor).replace("SECONDARYFACTOR", op.SecondaryFactor).replace("DURATION", op.Duration));
+        if (op.Removed != "true") {
+            filler = filler + tableRow.replace("OPERATION", op.User + "_" + op.UUID).replace("CONTENT", tableCell.replace("DATE", op.Date).replace("GOAL", op.Goal).replace("TITLE", op.Title).replace("COREFACTOR", op.CoreFactor).replace("SECONDARYFACTOR", op.SecondaryFactor).replace("DURATION", op.Duration));
+        }
     }
     document.getElementById("table_body").innerHTML = header + filler;
 }

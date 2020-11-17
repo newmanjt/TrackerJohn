@@ -247,6 +247,7 @@ type Operation struct {
 	Goal            string    `json:"Goal"`
 	Date            string    `json:"Date"`
 	UUID            uuid.UUID `json:"UUID"`
+	Removed         string    `json:"Removed"`
 }
 
 type UserOperations struct {
@@ -294,10 +295,31 @@ func newOperation(w http.ResponseWriter, r *http.Request) {
 		log.Println("no secondary factory! not fatal")
 	}
 	int_duration, _ := strconv.Atoi(duration)
-	new_op := Operation{Goal: goal, Date: time.Now().UTC().String(), Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor, UUID: uuid.New(), User: user}
+	new_op := Operation{Goal: goal, Date: time.Now().UTC().String(), Title: title, Duration: int_duration, CoreFactor: core_factor, SecondaryFactor: second_factor, UUID: uuid.New(), User: user, Removed: "false"}
 	op_file, _ := json.MarshalIndent(new_op, "", " ")
 	_ = ioutil.WriteFile("./operations/"+user+"_"+new_op.UUID.String(), op_file, 0644)
 	GoTo("dashboard?user="+user, w)
+}
+
+func removeOperation(w http.ResponseWriter, r *http.Request) {
+	uuid, err := getParam(r, "uuid")
+	if err != nil {
+		log.Println("error getting uuid")
+		return
+	}
+	jsonFile, err := os.Open("./operations/" + uuid)
+	if err != nil {
+		log.Println("error opening file, " + uuid)
+		return
+	}
+	defer jsonFile.Close()
+	var op Operation
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	json.Unmarshal(byteValue, &op)
+	op.Removed = "true"
+	op_file, _ := json.MarshalIndent(op, "", " ")
+	_ = ioutil.WriteFile("./operations/"+uuid, op_file, 0644)
+	GoTo("dashboard?user="+strings.Split(uuid, "_")[0], w)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -314,6 +336,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		newOperation(w, r)
 	} else if r.URL.Path[1:] == "get_operations" {
 		serveOperations(w, r)
+	} else if r.URL.Path[1:] == "remove_operation" {
+		removeOperation(w, r)
 	} else if r.URL.Path[1:] == "" {
 		GoTo("login", w)
 	} else {

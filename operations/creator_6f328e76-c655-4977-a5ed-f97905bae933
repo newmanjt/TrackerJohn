@@ -4,5 +4,8 @@
  "CoreFactor": "Mind",
  "SecondaryFactor": "Soul",
  "User": "creator",
- "UUID": "6f328e76-c655-4977-a5ed-f97905bae933"
+ "Goal": "",
+ "Date": "",
+ "UUID": "6f328e76-c655-4977-a5ed-f97905bae933",
+ "Removed": "true"
 }
