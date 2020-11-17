@@ -5,6 +5,8 @@ document.getElementById("new_operation").onclick = function(ev) {
     newOperationModal.style.display = "block";
 };
 
+var GlobalOperations;
+
 var newOperationModal = document.getElementById("newOperationModal");
 
 var editOperationModal = document.getElementById("editOperationModal");
@@ -33,6 +35,8 @@ window.onclick = function(event) {
 function edit(el) {
     console.log(el);
     editOperationModal.style.display = "block";
+    let inner = document.getElementById(el);
+    console.log(inner);
     document.getElementById("remove_uuid").setAttribute("value", el);
     document.getElementById("operation_name").innerHTML = el;
     // document.getElementById(el).hidden = true;
@@ -43,16 +47,20 @@ function parseOperations(operations) {
     if (operations["operations"].length == 0)
         return;
     let filler = "";
-    let header = "<tr id=\"header\"><th></th><th>Date</th><th>Goal</th><th>Title</th><th>Core Factor</th><th>Secondary Factor</th><th>Duration</th></tr>"
+    let past_filler = "";
+    let header = "<tr id=\"header\"><th></th><th>Date</th><th>Goal</th><th>Title</th><th>Core Factor</th><th>Secondary Factor</th><th>Duration</th><th>Past</th></tr>"
     let tableRow = "<tr id=\"OPERATION\" onclick=\"edit(this.id)\">\n<td></td>CONTENT</tr>";
-    let tableCell = "<td>DATE</td><td>GOAL</td><td>TITLE</td><td>COREFACTOR</td><td>SECONDARYFACTOR</td><td><em>DURATION</em> minutes</td>";
+    let tableCell = "<td>DATE</td><td>GOAL</td><td>TITLE</td><td>COREFACTOR</td><td>SECONDARYFACTOR</td><td><em>DURATION</em> minutes</td><td>PAST</td>";
     for (operation in operations["operations"]){
         let op = operations["operations"][operation];
         if (op.Removed != "true") {
-            filler = filler + tableRow.replace("OPERATION", op.User + "_" + op.UUID).replace("CONTENT", tableCell.replace("DATE", op.Date).replace("GOAL", op.Goal).replace("TITLE", op.Title).replace("COREFACTOR", op.CoreFactor).replace("SECONDARYFACTOR", op.SecondaryFactor).replace("DURATION", op.Duration));
+            filler = filler + tableRow.replace("OPERATION", op.User + "_" + op.UUID).replace("CONTENT", tableCell.replace("DATE", op.Date).replace("GOAL", op.Goal).replace("TITLE", op.Title).replace("COREFACTOR", op.CoreFactor).replace("SECONDARYFACTOR", op.SecondaryFactor).replace("DURATION", op.Duration).replace("PAST", "active"));
+        }else {
+            past_filler = past_filler + tableRow.replace("OPERATION", op.User + "_" + op.UUID).replace("CONTENT", tableCell.replace("DATE", op.Date).replace("GOAL", op.Goal).replace("TITLE", op.Title).replace("COREFACTOR", op.CoreFactor).replace("SECONDARYFACTOR", op.SecondaryFactor).replace("DURATION", op.Duration).replace("PAST", "yes"));
         }
     }
     document.getElementById("table_body").innerHTML = header + filler;
+    document.getElementById("past_table_body").innerHTML = header + past_filler;
 }
 
 function getOperations(){
@@ -65,6 +73,7 @@ function getOperations(){
         }else {
             console.log("got operations");
             var res = JSON.parse(xhr.response);
+            GlobalOperations = res;
             parseOperations(res);
         }
     };

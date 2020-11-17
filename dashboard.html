@@ -59,7 +59,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-bar-block">
     <a href="https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
     <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>&nbsp; Overview</a>
-    <!-- <a href="https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>&nbsp; Views</a> -->
+    <a href="#past" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>&nbsp; Past Operations</a>
     <!-- <a href="https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>&nbsp; Traffic</a> -->
     <!-- <a href="https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Geo</a> -->
     <!-- <a href="https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>&nbsp; Orders</a> -->
@@ -123,74 +123,51 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                 <input type="text" name="uuid" id="remove_uuid" value="temp" hidden>
                 <input type="submit" value="Remove">
             </form>
+            <form action="/new_operation">
+                <label for="goal">Goal: </label><br>
+                <input type="text" id="goalFromPast" name="goal" value="Goal"></input><br>
+                <label for="title">Title: </label><br>
+                <input type="text" id="titleFromPast" name="title" value="Title"></input><br>
+                <label for="duration">Duration: </label><br>
+                <input type="number" id="durationFromPast" name="duration"></input>  <span>minutes</span><br>
+                <label for="core_factor">Core Factor: </label><br>
+                <select name="core_factor" id="core_factorFromPast">
+                    <option value="Mind">Mind</option>
+                    <option value="Body">Body</option>
+                    <option value="Soul">Soul</option>
+                </select><br>
+                <label for="secondary_factor">Secondary Factor: </label><br>
+                <select name="secondary_factor" id="secondary_factorFromPast">
+                    <option value="Body">Body</option>
+                    <option value="Mind">Mind</option>
+                    <option value="Soul">Soul</option>
+                </select><br><br>
+                <input type="text" name="user" id="userFromPast" hidden>
+                <input type="submit" value="Submit">
+            </form>
+
             <br>
         </div>
     </div>
   </div>
 
 
+
+
   <div class="w3-row-padding w3-margin-bottom">
 
-    <!-- <div class="w3-quarter"> -->
-    <!--   <div class="w3-container w3-red w3-padding-16"> -->
-    <!--     <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div> -->
-    <!--     <div class="w3-right"> -->
-    <!--       <h3>52</h3> -->
-    <!--     </div> -->
-    <!--     <div class="w3-clear"></div> -->
-    <!--     <h4>Messages</h4> -->
-    <!--   </div> -->
-    <!-- </div> -->
-
-    <!-- <div class="w3-quarter"> -->
-    <!--   <div class="w3-container w3-blue w3-padding-16"> -->
-    <!--     <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div> -->
-    <!--     <div class="w3-right"> -->
-    <!--       <h3>99</h3> -->
-    <!--     </div> -->
-    <!--     <div class="w3-clear"></div> -->
-    <!--     <h4>Views</h4> -->
-    <!--   </div> -->
-    <!-- </div> -->
-
-    <!-- <div class="w3-quarter"> -->
-    <!--   <div class="w3-container w3-teal w3-padding-16"> -->
-    <!--     <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div> -->
-    <!--     <div class="w3-right"> -->
-    <!--       <h3>23</h3> -->
-    <!--     </div> -->
-    <!--     <div class="w3-clear"></div> -->
-    <!--     <h4>Shares</h4> -->
-    <!--   </div> -->
-    <!-- </div> -->
-
-    <!-- <div class="w3-quarter"> -->
-    <!--   <div class="w3-container w3-orange w3-text-white w3-padding-16"> -->
-    <!--     <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div> -->
-    <!--     <div class="w3-right"> -->
-    <!--       <h3>50</h3> -->
-    <!--     </div> -->
-    <!--     <div class="w3-clear"></div> -->
-    <!--     <h4>Users</h4> -->
-    <!--   </div> -->
-    <!-- </div> -->
 
   </div>
 
   <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
 
-      <!-- <div class="w3-third"> -->
-      <!--   <h5>Regions</h5> -->
-      <!--   <img src="./dashboard_files/region.jpg" style="width:100%" alt="Google Regional Map"> -->
-      <!-- </div> -->
-
       <div class="w3-twothird">
         <div class="w3-twothird">
             <h5>Operations</h5>
         </div>
         <div class="w3-third">
-            <input type="button" value="New Operation" id="new_operation"></input>
+            <input  style="float:left;" type="button" value="New Operation" id="new_operation"></input>
         </div>
         <table class="w3-table w3-striped w3-white">
           <tbody id="table_body">
@@ -199,12 +176,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                   <td><em>No Current Operations</em></td>
                   <td></td>
               </tr>
-          <!-- <tr> -->
-          <!--   <td><i class="fa fa-user w3-text-blue w3-large"></i></td> -->
-          <!--   <td>Example</td> -->
-          <!--   <td><i>10 mins</i></td> -->
-          <!-- </tr> -->
-
         </tbody></table>
       </div>
 
@@ -212,6 +183,30 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </div>
 
   <hr>
+
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+
+      <div class="w3-twothird">
+        <div class="w3-twothird">
+            <h5 id="past" >Past Operations</h5>
+        </div>
+        <div class="w3-third">
+            <!-- <input type="button" value="New Operation" id="new_operation"></input> -->
+        </div>
+        <table class="w3-table w3-striped w3-white">
+          <tbody id="past_table_body">
+              <tr id="no_operations">
+                  <td></td>
+                  <td><em>No Past Operations</em></td>
+                  <td></td>
+              </tr>
+        </tbody></table>
+      </div>
+
+    </div>
+
+  </div>
 
   <div class="w3-container">
 
